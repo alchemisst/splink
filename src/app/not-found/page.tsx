@@ -4,7 +4,7 @@ import { Parkinsans } from "next/font/google";
 
 const parkinsans = Parkinsans({
   subsets: ["latin"],
-  weight: "400",
+  weight: ["400", "500", "600", "700", "800"],
 });
 const text = "Oops, Page Not Found";
 
@@ -36,7 +36,7 @@ export default function Page() {
         animate="visible"
         variants={container}
       >
-        <h1 className={`text-7xl font-bold mb-4 ${parkinsans.className}`}>
+        <h1 className={`text-7xl font-semibold mb-4 ${parkinsans.className}`}>
           {text.split("").map((char, index) => (
             <motion.span key={index} variants={letter}>
               {char === " " ? "\u00A0" : char}

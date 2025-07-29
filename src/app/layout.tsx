@@ -1,11 +1,24 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, DM_Sans } from "next/font/google";
+import {
+  Geist,
+  Geist_Mono,
+  DM_Sans,
+  Parkinsans,
+  Poppins,
+} from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/Navbar/Navbar";
+import { Toaster } from "react-hot-toast";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
+});
+
+const poppins = Poppins({
+  variable: "--font-poppins",
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800"],
 });
 
 const dmSans = DM_Sans({
@@ -14,6 +27,11 @@ const dmSans = DM_Sans({
   weight: ["400", "700"], // optional: specify font weights you want
 });
 
+const parkinsans = Parkinsans({
+  variable: "--font-parkinsans",
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800"],
+});
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
@@ -32,8 +50,17 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${dmSans.variable} antialiased`}
+        className={`${geistSans.variable} ${parkinsans.variable} ${poppins.variable} ${geistMono.variable} ${dmSans.variable} antialiased`}
       >
+        <Toaster
+          position="top-right"
+          reverseOrder={false}
+          toastOptions={{
+            style: {
+              borderRadius: "40px",
+            },
+          }}
+        />
         <div className="flex justify-center">
           <div className="max-w-7xl">
             <Navbar />

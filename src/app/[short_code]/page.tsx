@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 interface PageProps {
   params: { short_code: string };
 }
+
 export default async function Page({ params }: PageProps) {
   const { short_code } = params;
 

@@ -41,7 +41,7 @@ export default function LettersPullUp() {
             initial="initial"
             animate={isInView ? "animate" : ""}
             custom={i}
-            className="text-xl text-center sm:text-4xl mb-4 font-bold tracking-tighter md:text-7xl md:leading-[4rem]"
+            className="text-4xl text-center sm:text-4xl mb-4 font-bold tracking-tighter md:text-7xl md:leading-[4rem]"
           >
             {current == " " ? <span>&nbsp;</span> : current}
           </motion.div>
@@ -58,7 +58,7 @@ export default function LettersPullUp() {
             initial="initial"
             animate={isInView ? "animate" : ""}
             custom={i}
-            className="text-xl text-center mb-4 sm:text-4xl font-bold tracking-tighter md:text-6xl md:leading-[4rem]"
+            className="text-3xl text-center mb-4 sm:text-4xl font-bold tracking-tighter md:text-6xl md:leading-[4rem]"
           >
             {current == " " ? <span>&nbsp;</span> : current}
           </motion.div>
