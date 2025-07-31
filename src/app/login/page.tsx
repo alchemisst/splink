@@ -4,10 +4,14 @@ import Image from "next/image";
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import toast from "react-hot-toast";
+import { Navbar } from "@/components/Navbar/Navbar";
+import { useRouter } from "next/navigation";
 
 export default function Page() {
+  const router = useRouter();
   const [isRegister, setIsRegister] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const [loginForm, setLoginForm] = useState({ username: "", password: "" });
   const [registerForm, setRegisterForm] = useState({
@@ -33,10 +37,12 @@ export default function Page() {
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
+
     if (!loginForm.password || !loginForm.username) {
       toast.error("Enter all the fields!");
       return;
     }
+    setLoading(true);
 
     try {
       const res = await fetch("api/login", {
@@ -49,15 +55,20 @@ export default function Page() {
       if (!res.ok) {
         throw new Error(resData.error);
       }
-
       toast.success(resData.message);
+      router.push("/dashboard");
     } catch (e: any) {
+      console.log(e);
       toast.error(e.message);
+    } finally {
+      setLoading(false);
     }
   };
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    setLoading(true);
     if (
       !registerForm.email ||
       !registerForm.password ||
@@ -82,6 +93,8 @@ export default function Page() {
       toast.success(resData.message);
     } catch (e: any) {
       console.log(e.message);
+    } finally {
+      setLoading(false);
     }
   };
   const handleLoginForm = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -104,6 +117,8 @@ export default function Page() {
 
   return (
     <div className="mt-20 sm:mt-40 h-full px-4 sm:px-0">
+      <Navbar />
+
       <motion.div
         className="grid grid-cols-1 sm:grid-cols-2 rounded-2xl max-w-4xl mx-auto bg-gradient-to-r from-[#fffbde] to-[#ffffff] overflow-hidden"
         layout
@@ -163,7 +178,7 @@ export default function Page() {
                       className="p-3 rounded-xl w-full bg-white border-2 border-black shadow-[2px_3px_0px_black] focus:bg-green-50 focus:shadow-[3px_4px_0px_black] focus:translate-x-[-1px] focus:translate-y-[-1px] transition-all duration-200 outline-none placeholder:text-gray-600 text-sm sm:text-base"
                     />
                   </div>
-
+                  {/* 
                   <div className="flex justify-center">
                     <button
                       type="submit"
@@ -194,6 +209,51 @@ export default function Page() {
                           />
                         </svg>
                       </div>
+                    </button>
+                  </div> */}
+
+                  <div className="flex justify-center ">
+                    <button
+                      type="submit"
+                      disabled={loading}
+                      className="group mt-8 sm:mt-10 relative z-10 flex items-center justify-between gap-2 border-2 border-black bg-yellow-300 px-4 py-2 shadow-[2px_4px_0px_black] transition-transform duration-250 ease-in-out hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_3px_0px_black] active:saturate-[0.75] overflow-hidden rounded-xl disabled:cursor-not-allowed"
+                    >
+                      <div className="absolute inset-0 -z-10  bg-green-300 translate-x-[-100%] transition-transform duration-250 ease-in-out group-hover:translate-x-0"></div>
+
+                      {/* Spinner */}
+                      {loading ? (
+                        <div className="flex justify-center items-center w-full ">
+                          <div className="h-6 w-6 border-4 border-black border-t-transparent rounded-full animate-spin" />
+                        </div>
+                      ) : (
+                        <>
+                          <div className="relative flex items-center justify-start overflow-hidden text-xl sm:text-2xl font-semibold">
+                            <span className="translate-x-[-100%] transition-all duration-250 ease-in-out group-hover:translate-x-0">
+                              Login
+                            </span>
+                            <span className="translate-x-[-100%] transition-all duration-250 ease-in-out group-hover:translate-x-0">
+                              Login
+                            </span>
+                          </div>
+
+                          <div className="relative z-10 me-4 rounded-full border-4 bg-green-300 border-black p-1 transition-transform duration-250 ease-in-out group-hover:translate-x-[5px] group-active:translate-x-[8px] overflow-hidden">
+                            <div className="absolute inset-0 -z-10 rounded-full bg-yellow-300 translate-x-[-100%] transition-transform duration-250 ease-in-out group-hover:translate-x-0"></div>
+                            <svg
+                              width="20"
+                              height="20"
+                              className="sm:w-[25px] sm:h-[25px]"
+                              viewBox="0 0 45 38"
+                              fill="none"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path
+                                d="M43.7678 20.7678C44.7441 19.7915 44.7441 18.2085 43.7678 17.2322L27.8579 1.32233C26.8816 0.34602 25.2986 0.34602 24.3223 1.32233C23.346 2.29864 23.346 3.88155 24.3223 4.85786L38.4645 19L24.3223 33.1421C23.346 34.1184 23.346 35.7014 24.3223 36.6777C25.2986 37.654 26.8816 37.654 27.8579 36.6777L43.7678 20.7678ZM0 21.5L42 21.5V16.5L0 16.5L0 21.5Z"
+                                fill="black"
+                              />
+                            </svg>
+                          </div>
+                        </>
+                      )}
                     </button>
                   </div>
 

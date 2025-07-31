@@ -30,17 +30,17 @@ const Herosection = () => {
       });
 
       const resData = await res.json();
-      console.log(res);
+
       if (!res.ok) throw new Error(resData.error || "Error shortening URL");
 
       setShortCode(resData.short_code);
     } catch (e: any) {
-      console.log(e.message);
+      toast.error(e.message);
     }
   };
 
   return (
-    <div className={`mt-50 text-center m-10 ${parkinsans.className}`}>
+    <div className={`mt-50 text-center m-10 ${parkinsans.className}  `}>
       <div>
         <LettersPullUp />
 
@@ -54,7 +54,10 @@ const Herosection = () => {
             Fast, simple, and reliable URL shortening for all your sharing
             needs.
           </p>
-          <form onSubmit={handleSplink} className="relative">
+          <form
+            onSubmit={handleSplink}
+            className=" relative  max-w-3xl mx-auto"
+          >
             <input
               type="text"
               name="link"

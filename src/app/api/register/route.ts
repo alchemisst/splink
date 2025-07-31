@@ -1,11 +1,14 @@
-import { NextResponse } from "next/server";
-import { supabaseServerClient } from "@/lib/supabaseServerClient";
+import { NextRequest, NextResponse } from "next/server";
+import supabaseAdmin from "@/lib/supabaseServerClient";
+import { createRouteHandlerClient } from "@supabase/auth-helpers-nextjs";
+import { cookies  } from "next/headers";
 
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
+   
   const { email, username, password } = await request.json();
-  const supabase = supabaseServerClient();
 
-  const { data, error } = await supabase
+
+  const { data, error } = await supabaseAdmin
     .from("profiles")
     .select("id")
     .eq("username", username)
@@ -18,20 +21,34 @@ export async function POST(request: Request) {
       { status: 400 }
     );
   }
+
+ 
+
+  const supabase = createRouteHandlerClient({ cookies});
   const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
     email,
     password,
   });
+
   if (signUpError) {
     // Show error (email in use, invalid, etc.)
-
+  
+    
+    if(signUpError.status == 422){
+      return NextResponse.json(
+      { error: "New Sign-ups are disabled atm!" },
+      { status: 400 }
+    );
+    }
     return NextResponse.json(
-      { error: "Email is already registered!" },
+      { error: "Email is already registered!",data:signUpError },
       { status: 400 }
     );
   }
 
   const userId = signUpData.user?.id;
+
+
 
   if (userId) {
 
@@ -41,9 +58,9 @@ export async function POST(request: Request) {
     
 
       if(res.error){
-        console.log(res)
+       
         return NextResponse.json(
-      { message: "Error in adding the username" },
+      { message: "Error in adding the username" ,data:res},
       { status: 403 }
     );
       }
