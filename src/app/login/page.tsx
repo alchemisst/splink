@@ -263,7 +263,7 @@ export default function Page() {
                       onClick={toggleMode}
                       className="text-black hover:text-green-600 transition-colors duration-200 underline text-sm sm:text-base"
                     >
-                      Don't have an account? Register here
+                      Don&apos;t have an account? Register here
                     </button>
                   </div>
                 </form>

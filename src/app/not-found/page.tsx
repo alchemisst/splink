@@ -1,11 +1,8 @@
 "use client";
-import { motion } from "framer-motion";
-import { Parkinsans } from "next/font/google";
+import { easeOut, motion } from "framer-motion";
 
-const parkinsans = Parkinsans({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800"],
-});
+import Link from "next/link";
+
 const text = "Oops, Page Not Found";
 
 const container = {
@@ -23,7 +20,7 @@ const letter = {
   visible: {
     opacity: 1,
     y: `0em`,
-    transition: { ease: "easeOut", duration: 0.3 },
+    transition: { ease: easeOut, duration: 0.3 },
   },
 };
 
@@ -36,7 +33,7 @@ export default function Page() {
         animate="visible"
         variants={container}
       >
-        <h1 className={`text-7xl font-semibold mb-4 ${parkinsans.className}`}>
+        <h1 className={`text-7xl font-semibold mb-4 font-parkinsans`}>
           {text.split("").map((char, index) => (
             <motion.span key={index} variants={letter}>
               {char === " " ? "\u00A0" : char}
@@ -46,12 +43,12 @@ export default function Page() {
         <p className="text-xl text-gray-500 mb-4">
           Maybe the user has deleted the splink!
         </p>
-        <a
+        <Link
           href="/"
           className="bg-green-500 text-center text-white px-4 py-2 rounded-xl "
         >
           Go Back
-        </a>
+        </Link>
       </motion.div>{" "}
     </>
   );

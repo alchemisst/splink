@@ -1,15 +1,10 @@
 "use client";
 
 import React, { useState } from "react";
-import { Parkinsans } from "next/font/google";
+
 import LettersPullUp from "../Letters/LetterPullUp";
 import { motion } from "framer-motion";
 import toast from "react-hot-toast";
-
-const parkinsans = Parkinsans({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800"],
-});
 
 const Herosection = () => {
   const [linkText, setLinkText] = useState("");
@@ -40,7 +35,7 @@ const Herosection = () => {
   };
 
   return (
-    <div className={`mt-50 text-center m-10 ${parkinsans.className}  `}>
+    <div className={`mt-50 text-center m-10 font-parkinsans `}>
       <div>
         <LettersPullUp />
 
@@ -79,14 +74,14 @@ const Herosection = () => {
             transition={{ delay: 0.2 }}
           >
             <h1 className="text-xl mt-4 mb-4"> Your Splink URL</h1>
-            <a
+            <button
               className="bg-white p-2 mt-4 rounded-2xl px-4"
               onClick={() =>
                 window.open(`http://localhost:3000/${shortCode}`, "_blank")
               }
             >
               http://localhost:3000/{shortCode}
-            </a>
+            </button>
           </motion.div>
         )}
       </div>

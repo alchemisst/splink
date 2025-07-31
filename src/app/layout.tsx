@@ -3,8 +3,8 @@ import {
   Geist,
   Geist_Mono,
   DM_Sans,
-  Parkinsans,
   Poppins,
+  Parkinsans,
 } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/Navbar/Navbar";
@@ -32,6 +32,7 @@ const parkinsans = Parkinsans({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700", "800"],
 });
+
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],

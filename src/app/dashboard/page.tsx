@@ -5,7 +5,7 @@ import Dashboard from "@/components/Dashboard/Dashboard";
 import { data } from "framer-motion/client";
 
 export default async function Page() {
-  const cookieStore = await cookies();
+  const cookieStore = cookies();
   const supabase = createServerComponentClient({ cookies: () => cookieStore });
   const {
     data: { session },

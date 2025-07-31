@@ -2,12 +2,13 @@ import supabaseAdmin from "@/lib/supabaseServerClient";
 
 import { redirect } from "next/navigation";
 
-interface PageProps {
-  params: { short_code: string };
-}
-
-export default async function Page({ params }: PageProps) {
-  const { short_code } = params;
+export default async function Page({
+  params,
+}: {
+  params: Promise<{ short_code: string }>;
+}) {
+  // Await the params to get the actual values
+  const { short_code } = await params;
 
   const { data, error } = await supabaseAdmin
     .from("links")
