@@ -22,24 +22,28 @@ export async function POST(request: Request) {
   let {
     data: { user },
   } = await supabase.auth.getUser();
-  console.log("this is user details", user);
+
   if (user) {
-    const { error } = await supabaseAdmin
+    const { data:insertedRow ,error } = await supabaseAdmin
       .from("links")
       .insert([
         { long_url, short_code, owner_id: user.id, ip_address: clientIP },
-      ]);
+      ]).select("*");
     if (error) {
       return NextResponse.json({ error: error.message }, { status: 500 });
     }
 
-    return NextResponse.json({ short_code, long_url }, { status: 201 });
-  }
+    const { ip_address, owner_id, ...publicData } = insertedRow[0];
+    publicData.clicks = 0
 
-  const { count, error: countError } = await supabaseAdmin
-    .from('links')
-    .select('id', { count: 'exact', head: true })
-    .eq('ip_address', clientIP);
+    return NextResponse.json({data:publicData}, { status: 201 });
+  }
+const { count, error: countError } = await supabaseAdmin
+  .from('links')
+  .select('id', { count: 'exact', head: true })
+  .eq('ip_address', clientIP)
+  .is('owner_id', null); 
+
 
   if (countError) {
     return NextResponse.json({ error: countError.message }, { status: 500 });
@@ -52,7 +56,7 @@ export async function POST(request: Request) {
   }
 
   // Insert anonymously using IP
-  const { error: insertError } = await supabaseAdmin
+  const { data:insertedData,error: insertError } = await supabaseAdmin
     .from('links')
     .insert([{ long_url, short_code, ip_address: clientIP }]);
 
@@ -60,5 +64,5 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: insertError.message }, { status: 500 });
   }
 
-  return NextResponse.json({ short_code, long_url }, { status: 201 });
+  return NextResponse.json({ short_code, long_url ,data:insertedData}, { status: 201 });
 }

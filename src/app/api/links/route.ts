@@ -21,6 +21,9 @@ const { data, error } = await supabase
   .eq("owner_id", userId)
   .order("created_at", { ascending: false });
 
-  if (error) return NextResponse.json({ error: error.message }, { status: 400 });
-  return NextResponse.json({ links: data });
+  const {data:user,error:userError} = await supabase.from("profiles").select("username").eq("id",userId).single();
+
+
+  if (error || userError) return NextResponse.json({ error: error?.message || userError?.message }, { status: 400 });
+  return NextResponse.json({ links: data,username: user.username });
 }

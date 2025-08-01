@@ -59,11 +59,13 @@ const Herosection = () => {
               value={linkText}
               onChange={(e) => setLinkText(e.target.value)}
               placeholder="https://splink.it/"
-              className="w-full mt-4 px-4 py-3 border-4 rounded-3xl border-white bg-[#b1eda7] focus:bg-white focus:outline-green-500"
+              className="w-full mt-4 px-4 py-4 border-4 focus:translate-x-[-1px] focus:translate-y-[-1px] transition-all duration-200   shadow-[6px_6px_0px_0px_black]  border-white bg-[#b1eda7] focus:bg-white focus:outline-green-500"
             />
-            <button className="absolute hover:cursor-pointer right-2 top-1/2 -translate-y-1/2 mt-2 bg-green-700 text-white px-3 py-2 rounded-2xl">
-              Splink It
-            </button>
+            <div className="absolute right-4 top-1/2 -translate-y-1/2">
+              <button className="transition-all duration-200 mt-2 bg-green-700 text-white px-3 py-2 shadow-[6px_6px_0px_0px_black] hover:shadow-none hover:translate-y-[6px]  hover:translate-x-[6px]">
+                Splink It
+              </button>
+            </div>
           </form>
         </motion.div>
 
@@ -73,14 +75,14 @@ const Herosection = () => {
             animate={{ y: 0, opacity: 1 }}
             transition={{ delay: 0.2 }}
           >
-            <h1 className="text-xl mt-4 mb-4"> Your Splink URL</h1>
+            <h1 className="text-xl mt-10 mb-4"> Your Splink URL</h1>
             <button
-              className="bg-white p-2 mt-4 rounded-2xl px-4"
+              className="bg-white p-2 mt-1 shadow-[6px_6px_0px_0px_black] px-4"
               onClick={() =>
-                window.open(`http://localhost:3000/${shortCode}`, "_blank")
+                window.open(`https://splinky.vercel.app/${shortCode}`, "_blank")
               }
             >
-              http://localhost:3000/{shortCode}
+              https://splinky.vercel.app/{shortCode}
             </button>
           </motion.div>
         )}

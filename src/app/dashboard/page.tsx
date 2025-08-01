@@ -14,7 +14,6 @@ export default async function Page() {
   if (!session) {
     redirect("/login");
   }
-  console.log(session);
 
   return <Dashboard />;
 }

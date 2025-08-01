@@ -3,8 +3,10 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 export const Navbar = () => {
+  const router = useRouter();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -74,7 +76,7 @@ export const Navbar = () => {
         <div className="flex items-center justify-between">
           {/* Logo */}
           <motion.div
-            className="flex items-center space-x-2"
+            className="flex items-center space-x-2 cursor-pointer"
             initial={{ scale: 1 }}
             animate={{
               scale: isScrolled ? 0.95 : 1,
@@ -83,6 +85,7 @@ export const Navbar = () => {
               duration: 0.4,
               ease: "easeOut",
             }}
+            onClick={() => router.push("/")}
           >
             <Image src="/image.png" alt="Logo" width={40} height={40} />
             <span className="text-xl font-bold text-gray-900">Splink</span>
@@ -167,10 +170,9 @@ export const Navbar = () => {
             >
               Join Waitlist
             </motion.button>
-
             <motion.button
               onClick={() => (window.location.href = "/login")}
-              className="bg-gray-900 text-white font-medium rounded-lg hover:bg-gray-800 transition-colors"
+              className="group relative border-2 border-black bg-green-300 px-6 py-2 rounded-xl shadow-[2px_3px_0px_black] hover:shadow-[3px_4px_0px_black] hover:translate-x-[-1px] hover:translate-y-[-1px] transition-all duration-200 font-semibold text-black overflow-hidden"
               initial={{
                 fontSize: "1rem",
                 paddingLeft: "1.5rem",
@@ -190,15 +192,15 @@ export const Navbar = () => {
                 ease: "easeOut",
               }}
               whileHover={{
-                scale: 1.05,
-                backgroundColor: "#374151",
+                scale: 1.02,
                 transition: { duration: 0.2 },
               }}
               whileTap={{
-                scale: 0.95,
+                scale: 0.98,
                 transition: { duration: 0.1 },
               }}
             >
+              <div className="absolute inset-0 -z-10 bg-yellow-300 translate-x-[-100%] transition-transform duration-250 ease-in-out group-hover:translate-x-0"></div>
               Login
             </motion.button>
           </motion.div>
@@ -220,7 +222,7 @@ export const Navbar = () => {
               {["Home", "About", "Features", "Pricing"].map((item, index) => (
                 <motion.a
                   key={item}
-                  href="#"
+                  href="/"
                   className="block text-black hover:text-green-600 font-semibold py-2 px-2 rounded-lg hover:bg-green-100 transition-colors"
                   initial={{ x: -20, opacity: 0 }}
                   animate={{

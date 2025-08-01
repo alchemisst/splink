@@ -18,9 +18,10 @@ import Image from "next/image";
 import toast from "react-hot-toast";
 import { error } from "console";
 import { useRouter } from "next/navigation";
+import { pre } from "framer-motion/m";
 
 interface LinkData {
-  id: string;
+  id: number;
   long_url: string;
   short_code: string;
   clicks: number;
@@ -29,17 +30,20 @@ interface LinkData {
 
 export default function Dashboard() {
   const router = useRouter();
+  const [initialLoading, setInitialLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [username, setUsername] = useState("");
   const [newUrl, setNewUrl] = useState("");
   const [loading, setLoading] = useState(false);
   const [links, setLinks] = useState<LinkData[]>([]);
   useEffect(() => {
     const fetchLinks = async () => {
       const res = await fetch("/api/links");
-      const { links } = await res.json();
-      console.log(links);
+      const { links, username } = await res.json();
 
+      setUsername(username);
       setLinks(links);
+      setInitialLoading(false);
     };
     fetchLinks();
   }, []);
@@ -59,6 +63,9 @@ export default function Dashboard() {
       const resData = await res.json();
 
       if (!res.ok) throw new Error(resData.error || "Error shortening URL");
+      // console.log(resData);
+      // console.log(links);
+      setLinks((prev) => [...prev, resData.data]);
       setIsModalOpen(false);
     } catch (e: any) {
       toast.error(e.message);
@@ -67,8 +74,24 @@ export default function Dashboard() {
     }
   };
 
-  const handleDeleteLink = (id: string) => {
-    setLinks(links.filter((link) => link.id !== id));
+  const handleDeleteLink = async (id: number) => {
+    await toast.promise(
+      fetch("/api/delete", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id }),
+      }).then(async (res) => {
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || "Delete failed");
+        setLinks((prev) => prev.filter((prev) => prev.id != id));
+        return;
+      }),
+      {
+        loading: "Deleting link...",
+        success: "Deleted successfully!",
+        error: (err) => err.message || "Something went wrong",
+      }
+    );
   };
 
   const copyToClipboard = (text: string) => {
@@ -100,12 +123,17 @@ export default function Dashboard() {
         <div className="grid grid-cols-1 gap-2 md:grid-cols-2 items-center justify-center md:justify-between bg-white rounded-2xl p-6 shadow-[0_8px_30px_rgb(0,0,0,0.12)] border-2 border-black">
           <div className="flex items-center gap-4">
             <div className="w-16 h-16 overflow-hidden rounded-full border-4 border-black flex items-center justify-center">
-              <Image src="/pfp.jpg" width={70} height={40} alt="pfp" />
+              <Image src="/pfp.png" width={70} height={40} alt="pfp" />
             </div>
             <div>
-              <h1 className="text-2xl sm:text-3xl font-bold text-black">
-                Welcome back, John!
-              </h1>
+              {initialLoading ? (
+                <div className="h-6 w-48 bg-gray-200 animate-pulse rounded"></div>
+              ) : (
+                <h1 className="text-2xl sm:text-3xl font-bold text-black">
+                  Welcome back,{" "}
+                  <span className="text-green-500">{username}</span>!
+                </h1>
+              )}
               <p className="text-gray-600">Manage your shortened links</p>
             </div>
           </div>
@@ -208,53 +236,90 @@ export default function Dashboard() {
               </tr>
             </thead>
             <tbody>
-              {links.map((link, index) => (
-                <motion.tr
-                  key={link.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.1 }}
-                  className="border-b border-gray-200 hover:bg-gray-50"
-                >
-                  <td className="p-4">
-                    <div className="flex items-center gap-2">
-                      <ExternalLink className="w-4 h-4 text-gray-500" />
-                      <span className="truncate max-w-xs" title={link.long_url}>
-                        {link.long_url}
-                      </span>
-                    </div>
-                  </td>
-                  <td className="p-4">
-                    <div className="flex items-center gap-2">
-                      <code className="bg-yellow-100 px-2 py-1 rounded border border-black font-mono">
-                        {link.short_code}
-                      </code>
-                      <button
-                        onClick={() => copyToClipboard(link.short_code)}
-                        className="p-1 hover:bg-gray-200 rounded transition-colors"
-                        title="Copy short link"
+              {initialLoading
+                ? Array(5)
+                    .fill(0)
+                    .map((_, i) => (
+                      <tr
+                        key={i}
+                        className="border-b border-gray-200 animate-pulse"
                       >
-                        <Copy className="w-4 h-4" />
-                      </button>
-                    </div>
-                  </td>
-                  <td className="p-4">
-                    <span className="bg-green-100 px-3 py-1 rounded-full border border-black font-semibold">
-                      {link.clicks}
-                    </span>
-                  </td>
-                  <td className="p-4 text-gray-600">{link.created_at}</td>
-                  <td className="p-4">
-                    <button
-                      onClick={() => handleDeleteLink(link.id)}
-                      className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors border-2 border-transparent hover:border-red-300"
-                      title="Delete link"
+                        <td className="p-4">
+                          <div className="h-4 w-48 bg-gray-200 rounded"></div>
+                        </td>
+                        <td className="p-4">
+                          <div className="flex items-center gap-2">
+                            <div className="w-4 h-4 bg-gray-300 rounded-full"></div>
+                            <div className="h-4 w-24 bg-gray-200 rounded"></div>
+                          </div>
+                        </td>
+                        <td className="p-4">
+                          <div className="h-4 w-12 bg-gray-200 rounded"></div>
+                        </td>
+                        <td className="p-4">
+                          <div className="h-4 w-20 bg-gray-200 rounded"></div>
+                        </td>
+                        <td className="p-4">
+                          <div className="w-6 h-6 bg-gray-300 rounded-full"></div>
+                        </td>
+                      </tr>
+                    ))
+                : links.map((link, index) => (
+                    <motion.tr
+                      key={link.id}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: index * 0.1 }}
+                      className="border-b border-gray-200 hover:bg-gray-50"
                     >
-                      <Trash2 className="w-4 h-4" />
-                    </button>
-                  </td>
-                </motion.tr>
-              ))}
+                      <td className="p-4">
+                        <span
+                          className="truncate max-w-xs"
+                          title={link.long_url}
+                        >
+                          {link.long_url}
+                        </span>
+                      </td>
+                      <td className="p-4">
+                        <div className="flex items-center gap-2">
+                          <ExternalLink
+                            className="w-4 h-4 text-gray-500 hover:cursor-pointer"
+                            onClick={() =>
+                              window.open(`${link.short_code}`, "_blank")
+                            }
+                          />
+
+                          <div className="flex items-center gap-2">
+                            <code className="bg-yellow-100 px-2 py-1 rounded border border-black font-mono">
+                              {link.short_code}
+                            </code>
+                            <button
+                              onClick={() => copyToClipboard(link.short_code)}
+                              className="p-1 hover:bg-gray-200 rounded transition-colors"
+                              title="Copy short link"
+                            >
+                              <Copy className="w-4 h-4" />
+                            </button>
+                          </div>
+                        </div>
+                      </td>
+                      <td className="p-4">
+                        <span className="bg-green-100 px-3 py-1 rounded-full border border-black font-semibold">
+                          {link.clicks}
+                        </span>
+                      </td>
+                      <td className="p-4 text-gray-600">{link.created_at}</td>
+                      <td className="p-4">
+                        <button
+                          onClick={() => handleDeleteLink(link.id)}
+                          className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors border-2 border-transparent hover:border-red-300"
+                          title="Delete link"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </button>
+                      </td>
+                    </motion.tr>
+                  ))}
             </tbody>
           </table>
         </div>
