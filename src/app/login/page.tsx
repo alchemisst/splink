@@ -58,7 +58,7 @@ export default function Page() {
       toast.success(resData.message);
       router.push("/dashboard");
     } catch (e: any) {
-      console.log(e);
+      // console.log(e);
       toast.error(e.message);
     } finally {
       setLoading(false);
@@ -87,12 +87,13 @@ export default function Page() {
 
       const resData = await res.json();
       if (!res.ok) {
-        console.log(resData);
+        // console.log(resData);
         throw new Error(resData.error);
       }
       toast.success(resData.message);
     } catch (e: any) {
-      console.log(e.message);
+      // console.log(e.message);
+      toast.error(e.message);
     } finally {
       setLoading(false);
     }

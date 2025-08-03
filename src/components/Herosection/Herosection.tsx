@@ -35,7 +35,7 @@ const Herosection = () => {
   };
 
   return (
-    <div className={`mt-50 text-center m-10 font-parkinsans `}>
+    <div className={`text-center m-10 font-parkinsans `}>
       <div>
         <LettersPullUp />
 
@@ -49,20 +49,17 @@ const Herosection = () => {
             Fast, simple, and reliable URL shortening for all your sharing
             needs.
           </p>
-          <form
-            onSubmit={handleSplink}
-            className=" relative  max-w-3xl mx-auto"
-          >
+          <form onSubmit={handleSplink} className=" relative max-w-3xl mx-auto">
             <input
               type="text"
               name="link"
               value={linkText}
               onChange={(e) => setLinkText(e.target.value)}
               placeholder="https://splink.it/"
-              className="w-full mt-4 px-4 py-4 border-4 focus:translate-x-[-1px] focus:translate-y-[-1px] transition-all duration-200   shadow-[6px_6px_0px_0px_black]  border-white bg-[#b1eda7] focus:bg-white focus:outline-green-500"
+              className="w-full mt-4 px-2 py-2 md:px-4 md:py-4 border-4 focus:translate-x-[-1px] focus:translate-y-[-1px] transition-all duration-200   shadow-[6px_6px_0px_0px_black]  border-white bg-[#b1eda7] focus:bg-white focus:outline-green-500"
             />
             <div className="absolute right-4 top-1/2 -translate-y-1/2">
-              <button className="transition-all duration-200 mt-2 bg-green-700 text-white px-3 py-2 shadow-[6px_6px_0px_0px_black] hover:shadow-none hover:translate-y-[6px]  hover:translate-x-[6px]">
+              <button className="transition-all duration-200 mt-2 bg-green-700 text-white px-1 py-1 md:px-3 md:py-2 shadow-[6px_6px_0px_0px_black] hover:shadow-none hover:translate-y-[6px]  hover:translate-x-[6px] hover:cursor-pointer">
                 Splink It
               </button>
             </div>

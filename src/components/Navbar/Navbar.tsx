@@ -8,7 +8,14 @@ import { useRouter } from "next/navigation";
 export const Navbar = () => {
   const router = useRouter();
   const [isScrolled, setIsScrolled] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(true);
+
+  const navItems = [
+    { name: "Home", link: "/#home" },
+    { name: "About Us", link: "/#aboutus" },
+    { name: "Pricing", link: "/#pricing" },
+    { name: "Features", link: "/#features" },
+  ];
 
   useEffect(() => {
     const handleScroll = () => {
@@ -54,11 +61,12 @@ export const Navbar = () => {
             ? "rgba(255, 255, 255, 0.9)"
             : "rgba(255, 255, 255, 0)",
           backdropFilter: isScrolled ? "blur(12px)" : "blur(0px)",
-          borderRadius: isScrolled ? "9999px" : "0px",
+          borderRadius: isScrolled ? "10px" : "0px",
           paddingLeft: isScrolled ? "1.5rem" : "2rem",
           paddingRight: isScrolled ? "1.5rem" : "2rem",
           paddingTop: isScrolled ? "0.75rem" : "1rem",
           paddingBottom: isScrolled ? "0.75rem" : "1rem",
+          boxShadow: isScrolled ? "6px 6px 0px 0px black" : "none",
         }}
         transition={{
           duration: 0.6,
@@ -103,11 +111,11 @@ export const Navbar = () => {
               ease: "easeOut",
             }}
           >
-            {["Home", "About", "Features", "Pricing"].map((item, index) => (
+            {navItems.map((item, index) => (
               <motion.a
-                key={item}
-                href="#"
-                className="text-gray-700 hover:text-gray-900 font-medium transition-colors"
+                key={item.name}
+                href={item.link}
+                className="text-gray-700 font-medium transition-colors hover:bg-green-300 hover:text-black px-4 py-2 rounded-md"
                 initial={{ fontSize: "1rem" }}
                 animate={{
                   fontSize: isScrolled ? "0.875rem" : "1rem",
@@ -122,14 +130,14 @@ export const Navbar = () => {
                   transition: { duration: 0.2 },
                 }}
               >
-                {item}
+                {item.name}
               </motion.a>
             ))}
           </motion.div>
 
           {/* Action Buttons */}
           <motion.div
-            className="flex items-center"
+            className=" items-center hidden md:flex"
             initial={{ gap: "0.75rem" }}
             animate={{
               gap: isScrolled ? "0.5rem" : "0.75rem",
@@ -140,7 +148,7 @@ export const Navbar = () => {
             }}
           >
             <motion.button
-              className="text-gray-700 hover:text-gray-900 font-medium transition-colors"
+              className="text-gray-700  hover:text-gray-900 font-medium transition-colors"
               initial={{
                 fontSize: "1rem",
                 paddingLeft: "1rem",
@@ -205,9 +213,42 @@ export const Navbar = () => {
             </motion.button>
           </motion.div>
 
+          <motion.button
+            className="md:hidden text-gray-700  hover:text-gray-900 font-medium transition-colors"
+            initial={{
+              fontSize: "1rem",
+              paddingLeft: "1rem",
+              paddingRight: "1rem",
+              paddingTop: "0.5rem",
+              paddingBottom: "0.5rem",
+            }}
+            animate={{
+              fontSize: isScrolled ? "0.875rem" : "1rem",
+              paddingLeft: isScrolled ? "0.75rem" : "1rem",
+              paddingRight: isScrolled ? "0.75rem" : "1rem",
+              paddingTop: isScrolled ? "0.5rem" : "0.5rem",
+              paddingBottom: isScrolled ? "0.5rem" : "0.5rem",
+            }}
+            transition={{
+              duration: 0.4,
+              ease: "easeOut",
+            }}
+            whileHover={{
+              scale: 1.05,
+              transition: { duration: 0.2 },
+            }}
+            whileTap={{
+              scale: 0.95,
+              transition: { duration: 0.1 },
+            }}
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          >
+            X
+          </motion.button>
+
           {/* Mobile Menu Button */}
           <motion.div
-            className="md:hidden overflow-hidden"
+            className="fixed md:hidden overflow-hidden right-0 top-15 bg-white shadow-md mx-2 px-2 rounded-md min-w-40"
             initial={{ height: 0, opacity: 0 }}
             animate={{
               height: isMobileMenuOpen ? "auto" : 0,
@@ -222,7 +263,7 @@ export const Navbar = () => {
               {["Home", "About", "Features", "Pricing"].map((item, index) => (
                 <motion.a
                   key={item}
-                  href="/"
+                  href={`/#${item}`}
                   className="block text-black hover:text-green-600 font-semibold py-2 px-2 rounded-lg hover:bg-green-100 transition-colors"
                   initial={{ x: -20, opacity: 0 }}
                   animate={{
@@ -238,10 +279,6 @@ export const Navbar = () => {
                 </motion.a>
               ))}
               <div className="flex flex-col space-y-2 pt-2">
-                <button className="group relative border-2 border-black bg-yellow-300 px-4 py-2 rounded-xl shadow-[2px_3px_0px_black] hover:shadow-[3px_4px_0px_black] hover:translate-x-[-1px] hover:translate-y-[-1px] transition-all duration-200 font-semibold text-black overflow-hidden">
-                  <div className="absolute inset-0 -z-10 bg-green-300 translate-x-[-100%] transition-transform duration-250 ease-in-out group-hover:translate-x-0"></div>
-                  Join Waitlist
-                </button>
                 <button
                   onClick={() => (window.location.href = "/login")}
                   className="group relative border-2 border-black bg-green-300 px-4 py-2 rounded-xl shadow-[2px_3px_0px_black] hover:shadow-[3px_4px_0px_black] hover:translate-x-[-1px] hover:translate-y-[-1px] transition-all duration-200 font-semibold text-black overflow-hidden"

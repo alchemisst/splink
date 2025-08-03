@@ -7,7 +7,7 @@ import {
   Parkinsans,
 } from "next/font/google";
 import "./globals.css";
-import { Navbar } from "@/components/Navbar/Navbar";
+
 import { Toaster } from "react-hot-toast";
 
 const geistSans = Geist({
