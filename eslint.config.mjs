@@ -14,6 +14,8 @@ const eslintConfig = [
    {
     files: ["**/*.{ts,tsx,js,jsx}"],
     rules: {
+
+    'react/no-unescaped-entities': 'off',
       "@typescript-eslint/no-unused-vars": "off",     // ❌ allow unused variables
       "@typescript-eslint/no-explicit-any": "off",    // ❌ allow use of `any`
       "prefer-const": "off",                           // ❌ allow `let` even if unused

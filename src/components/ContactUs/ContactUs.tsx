@@ -12,6 +12,7 @@ import {
   MapPin,
   Phone,
   Clock,
+  Heart,
 } from "lucide-react";
 import Image from "next/image";
 
@@ -94,8 +95,8 @@ export const ContactSection = () => {
             Get in Touch
           </h2>
           <p className="text-xl text-gray-700 max-w-3xl mx-auto">
-            Have questions about Splink? We'd love to hear from you. Send us a
-            message and we'll respond as soon as possible.
+            Have questions about Splink? We&apos;d love to hear from you. Send
+            us a message and we&apos;ll respond as soon as possible.
           </p>
         </motion.div>
 
@@ -117,7 +118,7 @@ export const ContactSection = () => {
                   Send us a Message
                 </h3>
                 <p className="text-gray-700">
-                  We'll get back to you within 24 hours
+                  We&apos;ll get back to you within 24 hours
                 </p>
               </div>
             </div>
@@ -216,8 +217,11 @@ export const ContactSection = () => {
           viewport={{ once: true }}
         >
           <div className="bg-green-300 font-parkinsans border-4 border-black rounded-2xl p-8 shadow-[8px_8px_0px_black]">
-            <h1>
-              Made with <span></span>
+            <h1 className="flex justify-center transition-all duration-300 ease-in">
+              Made with{" "}
+              <span className="ml-1 transition-transform duration-100 ease-in hover:scale-120">
+                <Heart fill="red" />
+              </span>
             </h1>
           </div>
         </motion.div>

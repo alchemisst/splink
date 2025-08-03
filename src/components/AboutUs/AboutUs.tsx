@@ -63,9 +63,9 @@ export const AboutSection = () => {
             Why Choose Splink?
           </h2>
           <p className="text-xl text-gray-700 max-w-3xl mx-auto">
-            We've built the fastest, most reliable URL shortener on the planet.
-            Here's how we deliver lightning-fast redirects to millions of users
-            worldwide.
+            We&apos;ve built the fastest, most reliable URL shortener on the
+            planet. Here&apos;s how we deliver lightning-fast redirects to
+            millions of users worldwide.
           </p>
         </motion.div>
 
