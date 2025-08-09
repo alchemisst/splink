@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Check, X, Zap, Crown, Building2 } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 const pricingPlans = [
   {
@@ -23,6 +24,7 @@ const pricingPlans = [
       { name: "Priority support", included: false },
     ],
     popular: false,
+    link: "/login",
   },
   {
     name: "Pro",
@@ -42,6 +44,7 @@ const pricingPlans = [
       { name: "Priority support", included: true },
     ],
     popular: true,
+    link: "/#contact",
   },
   {
     name: "Enterprise",
@@ -61,11 +64,14 @@ const pricingPlans = [
       { name: "Priority support", included: true },
     ],
     popular: false,
+    link: "/#contact",
   },
 ];
 
 export const PricingSection = () => {
   const [isAnnual, setIsAnnual] = useState(false);
+
+  const router = useRouter();
 
   return (
     <section className="py-20 px-4 ">
@@ -195,6 +201,7 @@ export const PricingSection = () => {
                 </ul>
 
                 <button
+                  onClick={() => router.push(plan.link)}
                   className={`w-full ${plan.buttonColor} border-2 border-black py-4 px-6 rounded-xl font-bold text-black shadow-[4px_4px_0px_black] hover:shadow-[6px_6px_0px_black] hover:translate-x-[-2px] hover:translate-y-[-2px] transition-all duration-200`}
                 >
                   {plan.name === "Free" ? "Get Started" : "Choose Plan"}
@@ -215,7 +222,10 @@ export const PricingSection = () => {
           <p className="text-lg text-gray-700 mb-4">
             Need a custom solution? We&apos;ve got you covered.
           </p>
-          <button className="group relative bg-blue-300 hover:bg-blue-400 border-2 border-black px-8 py-3 rounded-xl font-bold text-black shadow-[4px_4px_0px_black] hover:shadow-[6px_6px_0px_black] hover:translate-x-[-2px] hover:translate-y-[-2px] transition-all duration-200 overflow-hidden">
+          <button
+            onClick={() => router.push("#contact")}
+            className="group relative bg-blue-300 hover:bg-blue-400 border-2 border-black px-8 py-3 rounded-xl font-bold text-black shadow-[4px_4px_0px_black] hover:shadow-[6px_6px_0px_black] hover:translate-x-[-2px] hover:translate-y-[-2px] transition-all duration-200 overflow-hidden"
+          >
             <div className="absolute inset-0 -z-10 bg-yellow-300 translate-x-[-100%] transition-transform duration-250 ease-in-out group-hover:translate-x-0"></div>
             Contact Sales
           </button>

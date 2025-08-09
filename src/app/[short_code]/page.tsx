@@ -17,7 +17,7 @@ export default async function Page({
     .single();
 
   if (error || !data) {
-    console.log("error occured", error);
+    // console.log("error occured", error);
     redirect("/not-found");
   }
 

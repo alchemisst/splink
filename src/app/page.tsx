@@ -44,8 +44,9 @@ export default function Home() {
       <section id="pricing" className="pt-10">
         <PricingSection />
       </section>
-
-      <ContactSection />
+      <section id="contact" className="pt-10">
+        <ContactSection />
+      </section>
     </>
   );
 }

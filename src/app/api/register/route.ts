@@ -31,7 +31,6 @@ export async function POST(request: NextRequest) {
   });
 
   if (signUpError) {
-    // Show error (email in use, invalid, etc.)
   
     
     if(signUpError.status == 422){

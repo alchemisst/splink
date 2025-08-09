@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { Zap, Shield, Globe, BarChart3, Clock, Users } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 const stats = [
   { label: "Links Shortened", value: "10M+", icon: Globe },
@@ -48,6 +49,7 @@ const performanceData = [
 ];
 
 export const AboutSection = () => {
+  const router = useRouter();
   return (
     <section className=" py-20 px-4 ">
       <div className="max-w-7xl mx-auto">
@@ -207,7 +209,10 @@ export const AboutSection = () => {
               Join thousands of users who trust Splink for their link shortening
               needs
             </p>
-            <button className="group relative bg-green-300 hover:bg-green-400 border-2 border-black px-8 py-4 rounded-xl font-bold text-black shadow-[4px_4px_0px_black] hover:shadow-[6px_6px_0px_black] hover:translate-x-[-2px] hover:translate-y-[-2px] transition-all duration-200 overflow-hidden">
+            <button
+              onClick={() => router.push("#home")}
+              className="group relative bg-green-300 hover:bg-green-400 border-2 border-black px-8 py-4 rounded-xl font-bold text-black shadow-[4px_4px_0px_black] hover:shadow-[6px_6px_0px_black] hover:translate-x-[-2px] hover:translate-y-[-2px] transition-all duration-200 overflow-hidden"
+            >
               <div className="absolute inset-0 -z-10 bg-yellow-300 translate-x-[-100%] transition-transform duration-250 ease-in-out group-hover:translate-x-0"></div>
               Start Shortening Now
             </button>
